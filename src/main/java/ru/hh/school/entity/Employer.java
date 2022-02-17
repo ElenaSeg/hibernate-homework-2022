@@ -1,23 +1,34 @@
 package ru.hh.school.entity;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 //TODO: оформите entity
+
+@Entity
+@Table(name = "employer")
 public class Employer {
 
+  @Id
+  @Column(name = "employer_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
+  @Column(name = "company_name", nullable = false, length = 100)
   private String companyName;
 
   // не используйте java.util.Date
   // https://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#basic-datetime-java8
+  @Column(name = "creation_time")
   private LocalDateTime creationTime;
 
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "employer", cascade = CascadeType.ALL)
   private List<Vacancy> vacancies = new ArrayList<>();
 
+  @Column(name = "block_time")
   private LocalDateTime blockTime;
 
   public List<Vacancy> getVacancies() {
